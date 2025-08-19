@@ -6,7 +6,7 @@ Interface de usuário (frontend) para a API de Gestão de Tarefas. Esta aplicaç
 
 Este projeto foi construído como parte de um estudo aprofundado do ecossistema JavaScript, focando nas melhores práticas de desenvolvimento frontend com React e na sua integração com um backend RESTful.
 
-** [Repositório - API Gerenciador de Tarefas](https://github.com/carvalhosete/api-gerenciador-de-tarefas)**
+ [Repositório - API Gerenciador de Tarefas](https://github.com/carvalhosete/api-gerenciador-de-tarefas)
 
 ---
 
