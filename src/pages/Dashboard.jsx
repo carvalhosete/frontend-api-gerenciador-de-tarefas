@@ -5,7 +5,56 @@ import axios from 'axios';
 
 function DashboardPage() {
     const[tasks, setTasks] = useState([]); //cria um estado para as tarefas começando com um array vazio
+    const[newTaskTitle, setNewTaskTitle] =  useState('');
+    const[newTaskDescription, setNewTaskDescription] = useState('');
+
     const navigate = useNavigate ();
+
+    const handleCreateTask = async(event) => {
+        event.preventDefault();
+
+        if(!newTaskTitle) {
+            alert('O título da tarefa é obrigatório');
+            return;
+        }
+
+
+        try {
+            const token = localStorage.getItem('token');
+            if(!token){
+                //Se o token sumiu ou expirou, envia o usuário de volta para tela de login.
+                navigate('/login');
+                return;
+            }
+
+            //chamar o POST da API com axios.
+            const response = await axios.post('http://localhost:3000/api/tasks',{
+                title: newTaskTitle,
+                description: newTaskDescription,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`                   
+                }
+            }
+            );
+            
+            //pra atualizar a pagina com a task nova.
+
+            const newTask = response.data;
+
+            //Usa o setTasks pra criar um NOVO array que contém todas as tarefas(antigas e novas).
+            setTasks([...tasks, newTask]);
+
+            //limpa os campos do formulário após a criação.
+            setNewTaskTitle('');
+            setNewTaskDescription('');
+
+        } catch(error){
+            console.error('Erro ao criar tarefa: ', error);
+            alert('Não foi possível criar a tarefa.');
+        }
+    }
 
     useEffect(() =>{
         const fetchTasks = async () => {
@@ -50,6 +99,29 @@ function DashboardPage() {
 
             <div>
                 <h2>Minhas Tarefas</h2>
+
+                <form onSubmit={handleCreateTask}>
+                    <h3>Criar Nova Tarefa</h3>
+                    <div>
+                        <label htmlFor='title'>Título: </label>
+                        <input
+                            type="text"
+                            id="title"
+                            value={newTaskTitle}
+                            onChange={(e) => setNewTaskTitle(e.target.value)}
+                            />
+                    </div>
+                    <div>
+                        <label htmlFor='description'>Descrição: </label>
+                        <input
+                            type="text"
+                            id="description"
+                            value={newTaskDescription}
+                            onChange={(e) => setNewTaskDescription(e.target.value)}
+                        />
+                    </div>
+                    <button type="submit">Adicionar Tarefa</button>
+                </form>
                 {tasks.length === 0 ? (
                     <p>Você ainda não tem tarefas.</p>
                 ) : (
