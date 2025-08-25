@@ -14,9 +14,9 @@ Este projeto foi construído como parte de um estudo aprofundado do ecossistema 
 
 - [x] Cadastro de novos usuários.
 - [x] Autenticação de usuários com e-mail e senha.
-- [ ] Dashboard para visualização de tarefas do usuário logado.
-- [ ] Criação, atualização e exclusão de tarefas.
-- [ ] Marcar tarefas como concluídas.
+- [x] Dashboard para visualização de tarefas do usuário logado.
+- [x] Criação, atualização e exclusão de tarefas.
+- [x] Marcar tarefas como concluídas.
 - [ ] Design responsivo para uso em diferentes dispositivos.
 
 ---

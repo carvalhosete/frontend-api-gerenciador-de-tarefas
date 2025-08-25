@@ -1,60 +1,82 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import AddTaskForm from './components/AddTaskForm.jsx';
+import TaskList from './components/TaskList.jsx';
 
 
 function DashboardPage() {
     const[tasks, setTasks] = useState([]); //cria um estado para as tarefas começando com um array vazio
-    const[newTaskTitle, setNewTaskTitle] =  useState('');
-    const[newTaskDescription, setNewTaskDescription] = useState('');
-
+    
     const navigate = useNavigate ();
 
-    const handleCreateTask = async(event) => {
-        event.preventDefault();
-
-        if(!newTaskTitle) {
-            alert('O título da tarefa é obrigatório');
-            return;
+    
+    const handleDeleteTask = async (taskId) => {
+        console.log("Excluir tarefa com ID:", taskId);
+        if (!window.confirm("Tem certeza que deseja excluir esta tarefa?")){
+            return; //se cancelar para aqui.
         }
 
-
-        try {
+        try{
             const token = localStorage.getItem('token');
-            if(!token){
-                //Se o token sumiu ou expirou, envia o usuário de volta para tela de login.
+            if(!token) {
                 navigate('/login');
                 return;
             }
 
-            //chamar o POST da API com axios.
-            const response = await axios.post('http://localhost:3000/api/tasks',{
-                title: newTaskTitle,
-                description: newTaskDescription,
-            },
+            await axios.delete(`http://localhost:3000/api/tasks/${taskId}`, //url com ID da tarefa
             {
-                headers: {
-                    Authorization: `Bearer ${token}`                   
+                headers:{
+                    Authorization: `Bearer ${token}`
                 }
-            }
+            }    
             );
-            
-            //pra atualizar a pagina com a task nova.
 
-            const newTask = response.data;
+            const updatedTasks = tasks.filter(task => task.id !== taskId);
 
-            //Usa o setTasks pra criar um NOVO array que contém todas as tarefas(antigas e novas).
-            setTasks([...tasks, newTask]);
+            setTasks(updatedTasks);
 
-            //limpa os campos do formulário após a criação.
-            setNewTaskTitle('');
-            setNewTaskDescription('');
+            alert('Tarefa excluída com sucesso!');
 
         } catch(error){
-            console.error('Erro ao criar tarefa: ', error);
-            alert('Não foi possível criar a tarefa.');
+            console.error('Erro ao excluir tarefa: ', error);
+            alert('Não foi possível excluir a tarefa.');
         }
-    }
+    };
+
+    const handleToggleTaskStatus = async (taskID, currentStatus) => {
+        console.log(`Atualizar status da tarefa${taskID} para ${!currentStatus}`);
+        
+        try {
+            const token = localStorage.getItem('token');
+            if(!token){
+                navigate('/login');
+                return;
+            }
+
+            const response = await axios.put(`http://localhost:3000/api/tasks/${taskID}`,
+                {isDone: !currentStatus},
+                {headers:{Authorization: `Bearer ${token}` } }
+            );
+
+            const updatedTasks = tasks.map(task => {
+                
+                if (task.id === taskID){
+                    return response.data;
+                }
+                return task;
+            });
+
+            setTasks(updatedTasks);
+
+
+        } catch(error) {
+            console.error('Erro ao atualizar Tarefa: ', error);
+            alert('Não foi possível atualizar a tarefa.')
+        }
+    };
+
+
 
     useEffect(() =>{
         const fetchTasks = async () => {
@@ -97,43 +119,18 @@ function DashboardPage() {
             <p>Bem-vindo! Suas tarefas aparecerão aqui.</p>
             <button onClick={handleLogout}>Sair</button>
 
+            <hr />
+            
+            <AddTaskForm onTaskCreated={(newTask) => setTasks([...tasks, newTask])} />
+            
+            <hr />    
+
             <div>
                 <h2>Minhas Tarefas</h2>
-
-                <form onSubmit={handleCreateTask}>
-                    <h3>Criar Nova Tarefa</h3>
-                    <div>
-                        <label htmlFor='title'>Título: </label>
-                        <input
-                            type="text"
-                            id="title"
-                            value={newTaskTitle}
-                            onChange={(e) => setNewTaskTitle(e.target.value)}
-                            />
-                    </div>
-                    <div>
-                        <label htmlFor='description'>Descrição: </label>
-                        <input
-                            type="text"
-                            id="description"
-                            value={newTaskDescription}
-                            onChange={(e) => setNewTaskDescription(e.target.value)}
-                        />
-                    </div>
-                    <button type="submit">Adicionar Tarefa</button>
-                </form>
                 {tasks.length === 0 ? (
                     <p>Você ainda não tem tarefas.</p>
                 ) : (
-                    <ul>
-                        {tasks.map(tasks => (
-                            <li key={tasks.id}>
-                                <h3>{tasks.title}</h3>
-                                <p>{tasks.description}</p>
-                                <p>Status: {tasks.isDone ? 'Concluída' : 'Pendente'}</p>
-                            </li>    
-                        ))}
-                    </ul>
+                    <TaskList tasks={tasks} onDeleteTask={handleDeleteTask} onToggleTaskStatus={handleToggleTaskStatus}/>
                 )}
             </div>
         </div>
