@@ -1,0 +1,77 @@
+/* Container principal para centralização vertical e horizontal do formulário. */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+}
+
+/* Estilização do card do formulário. */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+  background-color: #1a193a;
+  border: 1px solid #4a478a;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Agrupador para cada par de label e input. */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+.form-group input {
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #e0e0e0;
+  background-color: #25244d;
+  border: 1px solid #4a478a;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+
+.form-group input:focus {
+  outline: none; /* Remove o outline padrão do navegador. */
+  border-color: #8a87c8;
+  box-shadow: 0 0 0 3px rgba(138, 135, 200, 0.2);
+}
+
+/* Botão principal de ação. */
+.login-button {
+  padding: 0.85rem;
+  border-radius: 4px;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: background-color 0.2s, transform 0.1s;
+  background-color: #5854a5;
+  color: #ffffff;
+}
+
+.login-button:hover {
+  background-color: #6b68c2;
+}
+
+.login-button:active {
+  transform: scale(0.98);
+}

@@ -50,29 +50,31 @@ function AddTaskForm({ onTaskCreated }) {
     };
 
     return (
-    <form onSubmit={handleCreateTask}>
-        <h3>Criar Nova Tarefa</h3>
-        <div>
-            <label htmlFor='title'>Título: </label>
-            <input
-                type="text"
-                id="title"
-                value={newTaskTitle}
-                onChange={(e) => setNewTaskTitle(e.target.value)}
+        <form className="create-task-form" onSubmit={handleCreateTask}>
+            <div className="form-group">
+                <label htmlFor='title'>Título: </label>
+                <input
+                    type="text"
+                    id="title"
+                    value={newTaskTitle}
+                    onChange={(e) => setNewTaskTitle(e.target.value)}
                 />
-        </div>
-        <div>
-            <label htmlFor='description'>Descrição: </label>
-            <input
-                type="text"
-                id="description"
-                value={newTaskDescription}
-                onChange={(e) => setNewTaskDescription(e.target.value)}
-            />
-        </div>
-        <button type="submit">Adicionar Tarefa</button>
-    </form>
+            </div>
+
+            <div className="form-group">
+                <label htmlFor='description'>Descrição: </label>
+                <input
+                    type="text"
+                    id="description"
+                    value={newTaskDescription}
+                    onChange={(e) => setNewTaskDescription(e.target.value)}
+                />
+            </div>
+
+            <button type="submit">Adicionar Tarefa</button>
+        </form> 
     );
+
 }
 
 export default AddTaskForm;

@@ -1,3 +1,4 @@
+import './styles/Login.css';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -33,33 +34,34 @@ function LoginPage(){
   };
   
   return (
-      <div>
-    <h2>Login</h2>
-    <form onSubmit={handleSubmit}>
-      <div>
+  <div className="login-container">
+    <form className="login-form" onSubmit={handleSubmit}>
+      <h2>Login</h2>
+      <div className="form-group">
         <label htmlFor="email">Email:</label>
-        <input 
-        type="email" 
-        id="email" 
-        name="email" 
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
         />
       </div>
-      <div>
+      <div className="form-group">
         <label htmlFor="password">Senha:</label>
-        <input 
-        type="password" 
-        id="password" 
-        name="password" 
-        value ={password}
-        onChange={(e) => setPassword(e.target.value)}
+        <input
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
         />
       </div>
-      <button type="submit">Entrar</button>
+      <button type="submit" className="login-button">Entrar</button>
     </form>
-  </div>    
-  );
+  </div>
+);
+
 }
 
 export default LoginPage;

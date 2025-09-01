@@ -2,17 +2,18 @@ import TaskItem from "./TaskItem.jsx";
 
 function TaskList({ tasks, onDeleteTask, onToggleTaskStatus }) {
     return(
-        <ul>
+        <div className="task-list">
             {tasks.map(task => (
                 <TaskItem   
                     key={task.id}
                     task={task} 
                     onDelete={onDeleteTask}
-                    onToggleTaskStatus={onToggleTaskStatus} //repassa o prop para o filho
-                    />
+                    onToggleTaskStatus={onToggleTaskStatus}
+                />
             ))}
-        </ul>        
+        </div>        
     );
+
 }
 
 export default TaskList;

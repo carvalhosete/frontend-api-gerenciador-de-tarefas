@@ -1,3 +1,4 @@
+import './styles/Dashboard.css';
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
@@ -112,27 +113,31 @@ function DashboardPage() {
         navigate('/login'); //evita o usuário voltar para a porta de entrada.
     }
 
-
-    return(
-        <div>
+    return (
+        <div className="dashboard-container">
+            
+            <header className="dashboard-header">
             <h1>Dashboard de Tarefas</h1>
-            <p>Bem-vindo! Suas tarefas aparecerão aqui.</p>
-            <button onClick={handleLogout}>Sair</button>
-
-            <hr />
-            
+            <button onClick={handleLogout} className="logout-button">
+                Sair
+            </button>
+            </header>
+            <section className="dashboard-card">
+            <h2>Criar Nova Tarefa</h2>
             <AddTaskForm onTaskCreated={(newTask) => setTasks([...tasks, newTask])} />
-            
-            <hr />    
-
-            <div>
-                <h2>Minhas Tarefas</h2>
-                {tasks.length === 0 ? (
-                    <p>Você ainda não tem tarefas.</p>
-                ) : (
-                    <TaskList tasks={tasks} onDeleteTask={handleDeleteTask} onToggleTaskStatus={handleToggleTaskStatus}/>
-                )}
-            </div>
+            </section>
+            <section className="dashboard-card">
+            <h2>Minhas Tarefas</h2>
+            {tasks.length === 0 ? (
+                <p>Você ainda não tem tarefas.</p>
+            ) : (
+                <TaskList
+                tasks={tasks}
+                onDeleteTask={handleDeleteTask}
+                onToggleTaskStatus={handleToggleTaskStatus}
+                />
+            )}
+            </section>
         </div>
     );
 }
