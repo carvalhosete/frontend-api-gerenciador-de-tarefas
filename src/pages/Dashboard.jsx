@@ -118,9 +118,7 @@ function DashboardPage() {
             
             <header className="dashboard-header">
             <h1>Dashboard de Tarefas</h1>
-            <button onClick={handleLogout} className="logout-button">
-                Sair
-            </button>
+            <button onClick={handleLogout} className="logout-button">Sair</button>
             </header>
             <section className="dashboard-card">
             <h2>Criar Nova Tarefa</h2>

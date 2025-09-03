@@ -23,26 +23,29 @@
   color: #e0e0e0;
 }
 
-/* Botão de Sair - vamos dar um estilo diferente, menos chamativo */
 .logout-button {
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  border: 1px solid #8a87c8; /* Borda roxa clara */
-  background-color: transparent; /* Fundo transparente */
-  color: #8a87c8;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px; 
+  border: none;    
+  background-color: #25244d; 
+  color: #c4c2f0;            
   font-weight: bold;
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: background-color 0.2s, color 0.2s;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .logout-button:hover {
-  background-color: rgba(138, 135, 200, 0.1); /* Brilho sutil no hover */
-  color: #adaaf2;
+  background-color: #363467;
+  color: #ffffff;             
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* === Card Genérico (para o formulário e a lista) === */
+
 .dashboard-card {
-  background-color: #1a193a; /* Mesmo fundo do form de login */
+  background-color: #1a193a;
   border: 1px solid #4a478a;
   border-radius: 8px;
   padding: 1.5rem;
@@ -55,7 +58,7 @@
   padding-bottom: 0.75rem;
 }
 
-/* === Formulário de Criação === */
+
 .create-task-form {
   display: flex;
   flex-direction: column;
@@ -92,7 +95,7 @@
   color: #ffffff;
 }
 
-/* === Lista de Tarefas === */
+
 .task-list {
   display: flex;
   flex-direction: column;
@@ -111,7 +114,7 @@
 
 /* Estilo para tarefas concluídas */
 .task-item.completed {
-  border-left-color: #00b894; /* Verde para indicar sucesso */
+  border-left-color: #09b643;
 }
 
 .task-item.completed .task-title {
@@ -127,4 +130,64 @@
 .task-actions {
     display: flex;
     gap: 1rem;
+}
+
+
+.task-actions button {
+  background-color: transparent;
+  border: 1px solid #8a87c8; /* Mesma borda do botão de logout */
+  color: #8a87c8;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Estilo específico para o botão de excluir */
+.task-actions .delete-button {
+  border-color: #e53e3e; 
+  color: #e53e3e;
+}
+
+.task-actions .delete-button:hover {
+  background-color: rgba(229, 62, 62, 0.1);
+  color: #fc8181;
+}
+
+.task-item input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #8a87c8;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  top: 5px;
+  margin-right: 0.5rem;
+  transition: all 0.2s;
+}
+
+
+.task-item input[type="checkbox"]:checked {
+  background-color: #09b643; 
+  border-color: #09b643;
+}
+
+
+.task-item input[type="checkbox"]:checked::before {
+  content: '✔';
+  font-size: 14px;
+  color: #1a193a; 
+  position: absolute;
+  top: -1px;
+  left: 2px;
+}
+
+/* texto "Status: Concluída/Pendente" */
+.task-item label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }

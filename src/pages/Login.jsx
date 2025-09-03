@@ -32,6 +32,10 @@ function LoginPage(){
       }
     }
   };
+
+  const handleRegisterClick = () => {
+      navigate('/register'); //Redireciona o usuário para página de cadastro.
+  };
   
   return (
   <div className="login-container">
@@ -58,6 +62,15 @@ function LoginPage(){
         />
       </div>
       <button type="submit" className="login-button">Entrar</button>
+
+      {/* Navegação para Cadastro*/}
+    <div className="register-link-container">
+      <p>Não tem uma conta? 
+      <button type="button" onClick={handleRegisterClick} className='register-button'>
+        Cadastre-se
+      </button>
+      </p>
+    </div>
     </form>
   </div>
 );

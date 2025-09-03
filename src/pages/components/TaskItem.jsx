@@ -18,7 +18,7 @@ function TaskItem({ task, onDelete, onToggleTaskStatus }) {
             </div>
 
             <div className="task-actions">
-                <button onClick={() => onDelete(task.id)}>Excluir</button>
+                <button onClick={() => onDelete(task.id)} className="delete-button" >Excluir</button>
             </div>
         </div>
     );
