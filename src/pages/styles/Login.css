@@ -103,3 +103,51 @@
 .register-button:hover {
   color: #adaaf2;
 }
+
+/* Container para o botão do Google, para centralizar */
+.google-login-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  position: relative; 
+}
+
+
+.google-login-container::before {
+  content: 'ou';
+  position: absolute;
+  top: -1.75rem;
+  color: #a0aec0;
+  background-color: #1a193a; 
+  padding: 0 0.5rem;
+  font-size: 0.9rem;
+}
+
+/* Estilo do botão do Google */
+.google-login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem; 
+  
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 4px;
+  border: 1px solid #8a87c8;
+  background-color: transparent;
+  color: #e0e0e0;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.google-login-button:hover {
+  background-color: rgba(138, 135, 200, 0.1);
+}
+
+
+.google-icon {
+  width: 20px;
+  height: 20px;
+}
