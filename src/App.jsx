@@ -13,11 +13,7 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route 
         path="/dashboard" 
-        element={ 
-        <ProtectedRoute> 
-          <DashboardPage /> 
-        </ProtectedRoute>
-        } 
+        element={<DashboardPage />} 
       />
     </Routes>
   );

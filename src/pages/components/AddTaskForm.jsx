@@ -17,23 +17,10 @@ function AddTaskForm({ onTaskCreated }) {
         }
 
         try {
-            const token = localStorage.getItem('token');
-            if(!token){
-                //Se o token sumiu ou expirou, envia o usuário de volta para tela de login.
-                navigate('/login');
-                return;
-            }
-
             //chamar o POST da API com axios.
             const response = await axios.post('http://localhost:3000/api/tasks',{
                 title: newTaskTitle,
-                description: newTaskDescription,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`                   
-                }
-            }
+                description: newTaskDescription}
             );
 
             // chama a função que recebemos via props.
@@ -45,7 +32,13 @@ function AddTaskForm({ onTaskCreated }) {
 
         } catch(error){
             console.error('Erro ao criar tarefa: ', error);
-            alert('Não foi possível criar a tarefa.');
+           
+            if(error.response && error.response.status === 401){
+                 navigate('/Dashboard');
+            } else {
+                alert('Não foi possível criar a tarefa.');
+            }
+            
         }
     };
 

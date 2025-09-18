@@ -19,29 +19,17 @@ function DashboardPage() {
         }
 
         try{
-            const token = localStorage.getItem('token');
-            if(!token) {
-                navigate('/login');
-                return;
-            }
-
-            await axios.delete(`http://localhost:3000/api/tasks/${taskId}`, //url com ID da tarefa
-            {
-                headers:{
-                    Authorization: `Bearer ${token}`
-                }
-            }    
-            );
-
-            const updatedTasks = tasks.filter(task => task.id !== taskId);
-
-            setTasks(updatedTasks);
-
+            await axios.delete(`http://localhost:3000/api/tasks/${taskId}` ); //url com ID da tarefa
+            setTasks(tasks.filter(task => task.id !== taskId));
             alert('Tarefa excluída com sucesso!');
 
         } catch(error){
             console.error('Erro ao excluir tarefa: ', error);
-            alert('Não foi possível excluir a tarefa.');
+            if(error.response && error.response.status === 401){
+                navigate('/login');
+            } else {
+                alert('Não foi possível excluir a tarefa.');
+            }
         }
     };
 
@@ -49,19 +37,9 @@ function DashboardPage() {
         console.log(`Atualizar status da tarefa${taskID} para ${!currentStatus}`);
         
         try {
-            const token = localStorage.getItem('token');
-            if(!token){
-                navigate('/login');
-                return;
-            }
-
-            const response = await axios.put(`http://localhost:3000/api/tasks/${taskID}`,
-                {isDone: !currentStatus},
-                {headers:{Authorization: `Bearer ${token}` } }
-            );
+            const response = await axios.put(`http://localhost:3000/api/tasks/${taskID}`, {isDone: !currentStatus});
 
             const updatedTasks = tasks.map(task => {
-                
                 if (task.id === taskID){
                     return response.data;
                 }
@@ -73,7 +51,12 @@ function DashboardPage() {
 
         } catch(error) {
             console.error('Erro ao atualizar Tarefa: ', error);
-            alert('Não foi possível atualizar a tarefa.')
+
+            if(error.response && error.response.status === 401){
+                navigate('/login');
+            } else {
+                alert('Não foi possível atualizar a tarefa.')
+            }
         }
     };
 
@@ -82,35 +65,32 @@ function DashboardPage() {
     useEffect(() =>{
         const fetchTasks = async () => {
             try {
-                const token = localStorage.getItem('token');
-                if (!token){
-                    //se não houver token, não continua
-                    navigate('/login');
-                    return;
-                }
+                const response = await axios.get('http://localhost:3000/api/tasks');
+                setTasks(response.data);
 
-                const response = await axios.get('http://localhost:3000/api/tasks', {
-                    headers: {
-                        Authorization: `Bearer ${token}` //o formato que a API espera
-                    }
-                } );
-
-                setTasks(response.data); //atualiza o estado com as tarefas recebidas na API
             } catch(error) {
                 console.error('Erro ao buscar tarefas: ', error);
-                alert('Não foi possível carregar as tarefas');
+                
+                if(error.response && error.response.status === 401){
+                    navigate('/login');
+                } else{
+                    alert('Não foi possível carregar as tarefas');
+                }
+                
             }
         };
 
     fetchTasks(); //chama a função de busca
-
-
     }, [navigate]);
     
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-
-        navigate('/login'); //evita o usuário voltar para a porta de entrada.
+    const handleLogout = async () => {
+        try {
+            await axios.post('http://localhost:3000/api/logout' );
+            navigate('/login');
+        } catch(error){
+            console.error('Erro ao fazer o logout: ', error);
+            navigate('/login'); //mesmo se falhar força o redirecionamento
+        }
     }
 
     return (
